@@ -1,0 +1,113 @@
+# ═══════════════════════════════════════════════════════════════
+#  ZeroBot G2 — Master Configuration
+#  ─────────────────────────────────────────────────────────────
+#  6 MODES — set broker.name below:
+#
+#  MODE       │ bot.mode │ broker.name  │ DATA SOURCE     │ EXECUTION
+#  ───────────┼──────────┼──────────────┼─────────────────┼─────────────────
+#  P-mode     │ paper    │ p_mode       │ Yahoo Finance   │ Paper (safe)
+#  S-paper    │ paper    │ s_paper      │ Shoonya WS      │ Paper (safe)
+#  A-paper    │ paper    │ a_paper      │ Angel One WS    │ Paper (safe) ★
+#  Dual       │ live     │ dual         │ Angel One WS    │ Shoonya REAL
+#  A-live     │ live     │ a_live       │ Angel One WS    │ Angel One REAL
+#  S-live     │ live     │ s_live       │ Shoonya WS      │ Shoonya REAL
+#
+#  ★ A-paper = RECOMMENDED: Real Angel One market data + zero risk
+#
+#  NOTE: Only p_mode falls back gracefully when connectivity fails.
+#        All other modes FAIL with a clear error — no silent Yahoo fallback.
+# ═══════════════════════════════════════════════════════════════
+
+bot:
+  name: "ZeroBot"
+  version: "1.1"
+  mode: "paper"            # "paper" (safe) | "live" (real money)
+  trading_mode: "both"     # "stocks" | "options" | "both"
+  log_level: "INFO"
+  state_save_interval: 30
+
+broker:
+  name: "a_paper"          # ★ DEFAULT: a_paper = Angel One data + Paper money
+  # Options:
+  #   p_mode   → Yahoo data  + Paper execution   (always works, no credentials)
+  #   s_paper  → Shoonya WS  + Paper execution   (needs Shoonya creds)
+  #   a_paper  → Angel One WS + Paper execution  (needs Angel One creds) ← RECOMMENDED
+  #   dual     → Angel One WS + Shoonya orders   (REAL MONEY - needs both)
+  #   a_live   → Angel One WS + Angel One orders (REAL MONEY - needs Angel One)
+  #   s_live   → Shoonya WS  + Shoonya orders    (REAL MONEY - needs Shoonya)
+
+paper_broker:
+  initial_capital: 42500
+  slippage_pct: 0.0005
+  brokerage_flat: 20.0
+
+risk:
+  max_position_pct: 0.10
+  max_daily_loss_pct: 0.02
+  max_open_trades: 5
+  vix_halt_threshold: 25.0
+  vix_defensive_threshold: 20.0
+  min_confidence: 0.60
+  kelly_fraction: 0.25
+  max_drawdown_pct: 0.15
+
+strategies:
+  enabled:
+    - Momentum
+    - MeanReversion
+    - VWAP
+    - MarketMaking
+    - StatArb
+    - Supertrend
+    - ORB
+    - RSIDivergence
+    - Breakout
+    - Kotegawa
+
+symbols:
+  - HDFCBANK.NS
+  - RELIANCE.NS
+  - ICICIBANK.NS
+  - TCS.NS
+  - INFY.NS
+  - SBIN.NS
+  - AXISBANK.NS
+  - WIPRO.NS
+  - ITC.NS
+  - LT.NS
+  - KOTAKBANK.NS
+  - BAJFINANCE.NS
+  - MARUTI.NS
+  - HCLTECH.NS
+  - NESTLEIND.NS
+  - ADANIENT.NS
+  - SUNPHARMA.NS
+  - TATAMOTORS.NS
+  - ULTRACEMCO.NS
+  - POWERGRID.NS
+  - NTPC.NS
+  - BAJAJFINSV.NS
+  - TITAN.NS
+  - BHARTIARTL.NS
+  - HINDUNILVR.NS
+  - ASIANPAINT.NS
+  - INDUSINDBK.NS
+  - TECHM.NS
+  - TATASTEEL.NS
+  - ONGC.NS
+
+dashboard:
+  host: "127.0.0.1"
+  port: 8000
+
+ml:
+  retrain_threshold: 50
+  retrain_days: 7
+  min_rows: 200
+
+groq:
+  model: "llama-3.3-70b-versatile"
+  max_calls_per_day: 14400
+  timeout_seconds: 10
+  gate6_enabled: true
+  gate11_enabled: true

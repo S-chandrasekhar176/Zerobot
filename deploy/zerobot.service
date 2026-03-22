@@ -1,0 +1,42 @@
+[Unit]
+Description=ZeroBot NSE India Trading Engine
+Documentation=https://github.com/your-repo/zerobot
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=trader
+
+# ── Path — update this to where you uploaded ZeroBot ──
+WorkingDirectory=/home/trader/ZB_FINAL
+
+# ── Python — update if your venv path is different ──
+ExecStart=/home/trader/ZB_FINAL/venv/bin/python main.py
+
+# ── Credentials loaded from .env file ──
+EnvironmentFile=/home/trader/ZB_FINAL/config/.env
+
+# ── Force IST timezone ──
+Environment=TZ=Asia/Kolkata
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONIOENCODING=utf-8
+
+# ── Auto-restart on crash, wait 15s between attempts ──
+Restart=on-failure
+RestartSec=15s
+TimeoutStopSec=30
+
+# ── Safety limits ──
+MemoryMax=3G
+LimitNOFILE=65536
+
+# ── Logging — view with: journalctl -u zerobot -f ──
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=zerobot
+
+[Install]
+WantedBy=multi-user.target
