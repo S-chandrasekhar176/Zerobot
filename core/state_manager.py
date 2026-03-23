@@ -1,10 +1,23 @@
 # -*- coding: utf-8 -*-
 """
-ZeroBot v2 — State Manager (Full Fix)
-- Capital always loaded from settings.yaml
-- All trades/signals/positions saved to PostgreSQL
-- Fallback to JSON if DB not available
-- uptime tracking from bot start
+ZeroBot State Manager v2.0
+
+Manages global bot state (BotState singleton) including:
+- Capital allocation and P&L tracking
+- Open positions and active orders
+- Performance metrics (win rate, consecutive losses, drawdown)
+- Market data cache (VIX, FII/DII, regime)
+- Session halting and recovery logic
+
+The state is persisted to JSON (fallback) or PostgreSQL (primary) for
+recovery across bot restarts.
+
+Usage:
+    from core.state_manager import state_mgr
+    
+    capital = state_mgr.capital
+    daily_pnl = state_mgr.daily_pnl
+    drawdown = state_mgr.drawdown_pct
 """
 import json
 from datetime import datetime
@@ -18,7 +31,39 @@ _FALLBACK_FILE.parent.mkdir(exist_ok=True)
 
 
 class BotState:
+    """
+    Global state singleton for the ZeroBot trading session.
+    
+    Tracks all runtime state needed by the engine, risk manager, and broker.
+    Persisted to disk for recovery across restarts.
+    
+    Attributes:
+        mode (str): Trading mode (paper, s_mode, hybrid, live)
+        status (str): Bot status (RUNNING, HALTED, STOPPED, WARMUP)
+        capital (float): Initial capital from config (₹)
+        available_margin (float): Unused capital available for new positions (₹)
+        daily_pnl (float): Profit/loss since session start (₹)
+        total_pnl (float): Cumulative profit/loss across all sessions (₹)
+        daily_trades (int): Number of trades executed today
+        daily_wins (int): Number of profitable trades today
+        daily_losses (int): Number of losing trades today
+        consecutive_losses (int): Current loss streak (reset on any win)
+        open_positions (Dict[str, Dict]): Active positions keyed by symbol
+        active_orders (Dict[str, Dict]): Pending orders keyed by order_id
+        halted_reason (str): Reason for bot halt (if halted)
+        started_at (datetime): Session start timestamp (IST)
+        last_saved (datetime): Last state persistence timestamp
+        peak_capital (float): Highest capital reached in session
+        all_time_high (float): Highest capital reached across all sessions
+        market_data (Dict[str, Any]): Live market data cache
+            - india_vix (float): VIX index for volatility gating
+            - fii_flow (float): Net FII/DII flow (₹)
+            - nifty_change (float): NIFTY index change %
+            - regime (str): Bull/Bear/Crisis/Defensive
+    """
+
     def __init__(self):
+        """Initialize BotState with safe defaults."""
         self.mode: str = cfg.mode
         self.status: str = "STOPPED"
         self.capital: float = cfg.initial_capital      # Always from settings.yaml
@@ -56,6 +101,7 @@ class BotState:
 
     @property
     def total_capital(self) -> float:
+        """Current total capital (initial + P&L)."""
         return self.capital + self.daily_pnl
 
     @property

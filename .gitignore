@@ -1,53 +1,226 @@
-# ZeroBot — Git Ignore
-# NEVER commit credentials or sensitive data
+# ZeroBot Z1 — Git Ignore
+# SECURITY: Never commit credentials, keys, or sensitive data
+# See: https://github.com/github/gitignore
 
-# Environment / credentials
+# ============================================================================
+# CREDENTIALS & SECRETS — CRITICAL
+# ============================================================================
 config/.env
 config/.env.local
+config/.env.*.local
+config/.env.test
 *.key
+*.pem
+*.ppk
 *.secret
+secrets/
+.vault
+.credentials
+auth.json
 
-# Python
+# ============================================================================
+# PYTHON & VIRTUAL ENVIRONMENTS
+# ============================================================================
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
 .Python
-*.egg-info/
-dist/
 build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
 
-# ML models (large binary files)
-models/saved/*.pkl
-models/saved/*.joblib
-models/saved/*.json
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+.env-local
 
-# Database
+# ============================================================================
+# JUPYTER NOTEBOOKS & ANALYSIS
+# ============================================================================
+.ipynb_checkpoints
+*.ipynb_checkpoints
+*.ipynb
+.jupyter/
+
+# ============================================================================
+# IDE & EDITOR FILES
+# ============================================================================
+.vscode/
+.idea/
+.vs/
+*.swp
+*.swo
+*~
+.DS_Store
+.AppleDouble
+.LSOverride
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+.ropeproject/
+
+# ============================================================================
+# ML MODELS & LARGE BINARY FILES
+# ============================================================================
+models/saved/
+models/*.pkl
+models/*.joblib
+models/*.h5
+models/*.pth
+models/*.onnx
+*.model
+*.xgb
+*.lgb
+*.joblib
+
+# ============================================================================
+# DATA & CACHE
+# ============================================================================
+data/cache/
+data/storage/
+data/downloads/
+*.parquet
+*.hdf5
+*.feather
+.cache/
+*.pickle
+*.pkl
+
+# ============================================================================
+# DATABASE & PERSISTENCE
+# ============================================================================
 *.db
 *.sqlite
 *.sqlite3
+*.sql
+__database__/
 
-# Logs (can be huge)
+# ============================================================================
+# LOGS & DIAGNOSTICS
+# ============================================================================
 logs/
 *.log
+*.log.*
+runtime.log
+debug.log
+error.log
+.crashreport
 
-# OS
+# ============================================================================
+# OPERATING SYSTEM
+# ============================================================================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+desktop.ini
+NTUSER.DAT
+$RECYCLE.BIN/
 
-# IDE
-.vscode/
-.idea/
+# ============================================================================
+# TESTING & COVERAGE
+# ============================================================================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+coverage.xml
+*.cover
+.hypothesis/
+
+# ============================================================================
+# TEMPORARY & BACKUP FILES
+# ============================================================================
+*.bak
+*.tmp
+*.temp
 *.swp
+*.swo
+*~
+*.orig
+*.backup
+.*.sw?
 
-# Data cache
-data/cache/
-data/storage/
-
-# Linux/cloud specific
-*.sh.bak
+# ============================================================================
+# DOCKER & CLOUD
+# ============================================================================
+.dockerignore
+.docker/
+*.dockerfile
+docker-compose.local.yml
 deploy/*.key
 deploy/*.pem
+deploy/*.ppk
+.env.docker
+
+# ============================================================================
+# BUILD & DISTRIBUTION
+# ============================================================================
+*.whl
+*.tar.gz
+*.zip
+*.rar
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# ============================================================================
+# OS SPECIFIC
+# ============================================================================
+# Linux
+.bash_history
+.bashrc
+
+# Windows
+*.bat.bak
+*.sh.bak
+*.ps1.bak
+
+# macOS
+.AppleDouble
+.LSOverride
+.TemporaryItems
+
+# ============================================================================
+# MISC
+# ============================================================================
+.envrc                          # direnv
+.env.local
+.DS_store
+*.sublime-workspace
+*.sublime-project
 
 # Virtual environment
 venv/

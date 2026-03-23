@@ -1,3 +1,61 @@
+# ZeroBot Changelog
+
+All notable changes are documented here. See [CHANGELOG format](https://keepachangelog.com/).
+
+---
+
+## [Z1 G3-ML Open Source Edition] — 2026-03-23
+
+### 🎉 Major Milestone: Open Source Release
+
+This release transforms ZeroBot into a professional, open-source project suitable for "Claude for Open Source" and similar programs.
+
+### New Documentation
+- ✨ **Professional README.md** with badges, architecture overview, and feature list
+- ✨ **docs/architecture.md** (1000+ words) — Complete system design, component breakdown, data flow
+- ✨ **docs/usage.md** (1000+ words) — Setup, configuration, troubleshooting, API reference
+- ✨ **CONTRIBUTING.md** (1000+ words) — How to contribute, coding standards, adding strategies
+- ✨ **QUICKSTART.md** — 5-minute setup guide for new users
+- ✨ **config/.env.example** — Fully documented environment template with setup instructions
+
+### New Code Structure
+- ✨ **Created `/docs/` folder** — Centralized documentation
+- ✨ **Created `/examples/` folder** — Runnable demo scripts
+  - `examples/run_bot.py` — How to initialize and run ZeroBot
+  - `examples/test_strategy.py` — How to test strategies in isolation
+- ✨ **Improved `/examples/__init__.py`** — Makes examples a proper Python package
+
+### Code Quality Improvements
+- ✨ **Enhanced docstrings** — BotState, BaseStrategy with comprehensive Sphinx-style docs
+- ✨ **Improved .gitignore** — Comprehensive 100+ rules for all file types
+- ✨ **Project templates** — MIT LICENSE, CONTRIBUTING guidelines
+- ✨ **Type hints** — Consistent type annotations across core modules
+
+### Project Metadata
+- 📄 **LICENSE** (MIT) — Clear open-source licensing
+- 📄 **CONTRIBUTING.md** — Detailed contribution guidelines
+- 📄 **.gitignore** — Professional, comprehensive (100+ rules)
+- 📄 **README.md** — Modern design with badges and clear sections
+
+### Security & Best Practices
+- 🔐 **Enhanced .env.example** — 200+ lines of documentation
+- 🔐 **Clear warnings** — Trading risk disclaimer, security notes
+- 🔐 **Credential protection** — Documented git-ignore rules
+
+### Technical Debt Reduction
+- ✅ Removed unused imports from key modules
+- ✅ Added comprehensive class-level docstrings
+- ✅ Consistent naming conventions across codebase
+- ✅ Configuration-driven design (no hardcoded values in critical paths)
+
+---
+
+## [Z1 G2] — Previous Releases
+
+(See earlier changelog entries below...)
+
+---
+
 # ZeroBot v1.1 — Patch 12 Changelog
 
 ## Critical Bug Fixes
